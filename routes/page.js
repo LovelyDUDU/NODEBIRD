@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.use((req, res, next) => {
-    res.locals.user = null;
+    res.locals.user = null;                 // res.locals 로 값을 설정하는 이유 => 모든 템플릿 엔진에서 공통으로 사용하기 때문
     res.locals.followerCount = 0;
     res.locals.followingCount = 0;
     res.locals.followerIdList = [];
