@@ -9,7 +9,7 @@ const { isLoggedIn } = require('./middlewares');
 const router = express.Router()
 
 try {
-    fs.readFileSync('uploads');
+    fs.readdirSync('uploads');
 } catch (error) {
     console.error('uploads 폴더가 없어서 만듬');
     fs.mkdirSync('uploads');
@@ -28,20 +28,20 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 }
 });
 
-router.post('/img', isLoggedIn, upload.single('img'), (req, res) => {
+router.post('/img', isLoggedIn, upload.single('img'), (req, res) => { // 이미지 하나를 업로드받은 뒤 이미지의 저장 경로를 클라이언트로 응답함. 
     console.log(req.file);
     res.json({ url: `/img/${req.file.filename}` });
 });
 
 const upload2 = multer();
-router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
+router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => { // 게시글 업로드를 처리함.
     try {
         const post = await Post.create({
             content: req.body.content,
             img: req.body.url,
             UserId: req.user.id,
         });
-        const hashtags = rqe.body.content.match(/#[^\s#]+/g);
+        const hashtags = req.body.content.match(/#[^\s#]+/g);
         if (hashtags) {
             const result = await Promise.all(
                 hashtags.map(tag => {
