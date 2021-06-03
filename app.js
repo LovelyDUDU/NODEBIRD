@@ -12,18 +12,23 @@ const pageRouter = require('./routes/page');
 const authRouter = require('./routes/auth');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
-const { sequelize } = require('./models');
+
+const { sequelize } = require('./models'); // Sequelize는 MySQL작업을 쉽게할 수 있게 해줌. (ORM으로 분류됨)
 const passportConfig = require('./passport');
+// 폴더내의 index.js는 require할때 생략 가능함. 즉 ./models는 ./models/index.js와 같음
 
 const app = express();
 passportConfig(); // 패스포트 설정
+
 app.set('port', process.env.PORT || 8001);
-app.set('view engine', 'html');
-nunjucks.configure('views', {
-    express: app,
-    watch: true,
+
+app.set('view engine', 'html'); // 어떤 종류의 템플릿 엔진을 사용할지. .html이 아니라 .njk로 사용할 시 njk로 수정
+nunjucks.configure('views', { // 템플릿 파일들이 위치한 폴더(views)를 지정함. 
+    express: app, // express속성에 app객체 연결
+    watch: true, // true이면 HTMl 파일이 변경될때 템플릿 엔진을 다시 렌더링해줌.
 });
-sequelize.sync({ force:false })
+
+sequelize.sync({ force:false }) // sync 메서드를 이용해서 서버 실행시 MySQL과 연동됨. force가 true면 서버 실행신마다 테이블을 재생성함
     .then(() => {
         console.log('Success DB Connection');
     })
@@ -31,19 +36,21 @@ sequelize.sync({ force:false })
         console.error(err);
     });
 
-
-app.use(morgan('dev'));
-app.use(express.static((path.join(__dirname, 'public'))));
+// app.use(미들웨어) 주소를 첫번째 인수로 안넣으면 모든 요첨에서 실행됨. 주소를 넣으면 해당하는 요청에서만 실행됨
+app.use(morgan('dev')); // req과 res에 대한 정보를 콘솔에 기록함.
+app.use(express.static((path.join(__dirname, 'public')))); // static 미들웨어는 정적인 파일들을 제공하는 라우터 역할을 함.
 app.use('/img', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}));
-app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(session({
-    resave: false,
-    saveUninitialized: false,
+app.use(cookieParser(process.env.COOKIE_SECRET)); // req에 있는 쿠키를 해석해서 req.cookies로 만듬
+
+// session 관리용 미들웨어.
+app.use(session({ 
+    resave: false, // 요청이 올 때 세션에 수정 사항이 안생겨도 세션을 다시 저장할지 설정
+    saveUninitialized: false, // 세선에 저장할 내역이 없더라도 처음부터 세션을 생성할지 설정
     secret: process.env.COOKIE_SECRET,
     cookie: {
-        httpOnly: true,
+        httpOnly: true, // true면 클라이언트에서 쿠키 확인 못함.
         secure: false,
     }
 }));
@@ -61,13 +68,13 @@ app.use((req, res, next) => {
     next(error);
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => { // 에러처리 미들웨어
     res.locals.message = err.message;
     res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
     res.status(err.status || 500);
     res.render('error');
 });
 
-app.listen(app.get('port'), () => {
+app.listen(app.get('port'), () => { // 포트설정
     console.log(app.get('port'), '번 포트에서 대기 중');
 })
