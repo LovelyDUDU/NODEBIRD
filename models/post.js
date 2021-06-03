@@ -22,7 +22,7 @@ module.exports = class Post extends Sequelize.Model {
             collate: 'utf8_general_ci',
         });
     }
-
+    // Post는 User와 N:1 관계, Post 와 Hash는 M : N 관계
     static associate(db) {
         db.Post.belongsTo(db.User);
         db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' });

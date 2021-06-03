@@ -6,7 +6,7 @@ const Post = require('./post');
 const Hashtag = require('./hashtag');
 
 const db = {};
-const sequelize = new Sequelize(
+const sequelize = new Sequelize( // Sequelize는 시퀼라이즈 패키지이자 생성자.
   config.database, config.username, config.password, config,
 );
 

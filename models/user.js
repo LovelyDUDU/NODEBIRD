@@ -37,11 +37,12 @@ module.exports = class User extends Sequelize.Model {
         });
     }
 
+    // User 모델과 Post 모델은 1: N 관계, User 모델끼리 M : N 관계
     static associate(db) {
         db.User.hasMany(db.Post);
         db.User.belongsToMany(db.User, {
-            foreignKey: 'followingId',
-            as: 'Followers',
+            foreignKey: 'followingId', // foreignKey는 사용자 아이디를 구별하기 위함. 
+            as: 'Followers', // as는 foreginKey와 반대되는 모델을 가리킴. 
             through: 'Follow',
         });
         db.User.belongsToMany(db.User, {
