@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 
+//사용자 정보를 저장하는 모델. 기본적으로 email, nickname, pw를 저장
 module.exports = class User extends Sequelize.Model {
     static init(sequelize){
         return super.init({
@@ -16,22 +17,22 @@ module.exports = class User extends Sequelize.Model {
                 type: Sequelize.STRING(100),
                 allowNull: true,
             },
-            provider: {
+            provider: { // SNS 로그인을 했을 경우 저장 (local: 로컬로그인 / kakao: 카카오로그인)
                 type: Sequelize.STRING(10),
                 allowNull: false,
                 defaultValue: 'local',
             },
-            snsId: {
+            snsId: { // SNS 로그인을 했을 경우 저장
                 type: Sequelize.STRING(30),
                 allowNull: true,
             },
         }, {
             sequelize,
-            timestamps: true,
+            timestamps: true, // createdAt, updatedAt, deletedAt 컬럼 추가
             underscored: false,
             modelName: 'User',
             tableName: 'users',
-            paranoid: true,
+            paranoid: true, // createdAt, updatedAt, deletedAt 컬럼 추가
             charset: 'utf8',
             collate: 'utf8_general_ci',
         });
