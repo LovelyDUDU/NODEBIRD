@@ -4,7 +4,7 @@ const { Post, User, Hashtag } = require('../models');
 
 const router = express.Router();
 
-router.use((req, res, next) => {
+router.use((req, res, next) => {                // 라우터용 미들웨어
     res.locals.user = req.user;                 // res.locals 로 값을 설정하는 이유 => 모든 템플릿 엔진에서 공통으로 사용하기 때문
     res.locals.followerCount = req.user ? req.user.Followers.length : 0;
     res.locals.followingCount = req.user ? req.user.Followings.length : 0;
@@ -12,16 +12,16 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get('/profile', isLoggedIn, (req, res) => {
+router.get('/profile', isLoggedIn, (req, res) => { // 프로필화면은 로그인이 된 상태에서만 허용 => isLoggedIn 사용
     res.render('profile', { title: '내 정보 - NodeBird ' });
 });
 
-router.get('/join', isNotLoggedIn, (req, res) => {
+router.get('/join', isNotLoggedIn, (req, res) => { // 회원가입 화면은 로그인이 되지 않은 상태에서만 허용 => isNotLoggedIn 사용
     res.render('join', { title: "회원가입 - NodeBird" });
 });
 
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res, next) => { // 메인화면 => 모든 게시물을 출력해줌(.findAll 사용)
     try {
         const posts = await Post.findAll({
             include: {
@@ -40,7 +40,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/hashtag', async (req, res, next) => {
+router.get('/hashtag', async (req, res, next) => { // 해시태그로 검색 화면 => req.query.hashtag로 값을 받은 후 검색
     const query = req.query.hashtag;
     if (!query) {
         return res.redirect('/');
