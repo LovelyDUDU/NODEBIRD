@@ -28,6 +28,7 @@ nunjucks.configure('views', { // 템플릿 파일들이 위치한 폴더(views)�
     watch: true, // true이면 HTMl 파일이 변경될때 템플릿 엔진을 다시 렌더링해줌.
 });
 
+// 모델과 서버 연결
 sequelize.sync({ force:false }) // sync 메서드를 이용해서 서버 실행시 MySQL과 연동됨. force가 true면 서버 실행신마다 테이블을 재생성함
     .then(() => {
         console.log('Success DB Connection');

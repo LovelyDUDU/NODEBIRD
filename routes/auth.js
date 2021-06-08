@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 const router = express.Router()
 
-router.post('/join', isNotLoggedIn, async(req, res, next) => {
+router.post('/join', isNotLoggedIn, async(req, res, next) => { // 회원가입 라우터
     const { email, nick, password } = req.body;
     try {
         const exUser = await User.fineOne({ where: { email } }); 
@@ -27,7 +27,7 @@ router.post('/join', isNotLoggedIn, async(req, res, next) => {
     }
 });
 
-router.post('/login', isNotLoggedIn, async(req, res, next) => {
+router.post('/login', isNotLoggedIn, async(req, res, next) => { // 로그인 라우터
     passport.authenticate('local', (authError, user, info) => {
         if (authError) {
             console.error(authError);
@@ -46,9 +46,9 @@ router.post('/login', isNotLoggedIn, async(req, res, next) => {
     })(req, res, next); // 미들웨어 안에 있는 미들웨어에는 (req, res, next) 를 붙여야함.
 });
 
-router.get('/logout', isLoggedIn, (req, res) => {
+router.get('/logout', isLoggedIn, (req, res) => { // 로그아웃 라우터
     req.logout();
-    req.session.destroy();
+    req.session.destroy(); // req.session 객체의 내용 제거
     res.redirect('/');
 });
 
