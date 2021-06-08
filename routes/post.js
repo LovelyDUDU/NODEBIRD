@@ -41,7 +41,7 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => { // 게�
             img: req.body.url,
             UserId: req.user.id,
         });
-        const hashtags = req.body.content.match(/#[^\s#]+/g);
+        const hashtags = req.body.content.match(/#[^\s#]+/g); // 정규식을 이용하여 해시태그 추출
         if (hashtags) {
             const result = await Promise.all(
                 hashtags.map(tag => {
@@ -50,7 +50,7 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => { // 게�
                     })
                 }),
             );
-            await post.addHashtags(result.map(r => r[0]));
+            await post.addHashtags(result.map(r => r[0])); //게시글과 연결
         }
         res.redirect('/');
     } catch (err) {
