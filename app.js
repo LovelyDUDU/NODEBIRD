@@ -40,7 +40,7 @@ sequelize.sync({ force:false }) // sync 메서드를 이용해서 서버 실행�
 // app.use(미들웨어) 주소를 첫번째 인수로 안넣으면 모든 요첨에서 실행됨. 주소를 넣으면 해당하는 요청에서만 실행됨
 app.use(morgan('dev')); // req과 res에 대한 정보를 콘솔에 기록함.
 app.use(express.static((path.join(__dirname, 'public')))); // static 미들웨어는 정적인 파일들을 제공하는 라우터 역할을 함.
-app.use('/img', express.static(path.join(__dirname, 'uploads')));
+app.use('/img', express.static(path.join(__dirname, 'uploads'))); // uploads 폴더와 연결
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}));
 app.use(cookieParser(process.env.COOKIE_SECRET)); // req에 있는 쿠키를 해석해서 req.cookies로 만듬

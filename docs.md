@@ -53,13 +53,20 @@ provier가 local이면 로컬 로그인, kakao면 카카오 로그인 (default =
 hashtag.js 로 해시태그 모델을 따로 만든 이유는 태그로 검색을 하기 위함.
 
 ## passport
+index.js, kakaoStrategy.js, localStrategy.js 로 구성됨 <br>
+passport는 로그인 과정을 어떻게 처리할지 설명하는 파일이라고 생각하면 쉬움.
 
 ## public
+공용으로 사용될 css 저장해놓음
 
 ## routes
+라우터 모음
 
 ## views
+html 코드 모음
 
 ## seeders
+-
 
 ## uploads
+업로드된 파일들 모음
