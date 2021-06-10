@@ -9,7 +9,7 @@ const router = express.Router()
 router.post('/join', isNotLoggedIn, async(req, res, next) => { // 회원가입 라우터
     const { email, nick, password } = req.body;
     try {
-        const exUser = await User.fineOne({ where: { email } }); 
+        const exUser = await User.findOne({ where: { email } }); 
         if(exUser) { // 가입할때 이메일이 이미 존재하는 이메일이면 error
             return res.redirect('/join?error=exist');
         }
