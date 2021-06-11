@@ -32,6 +32,7 @@
             <input type="hidden" value="{{twit.id}}" class="twit-id">
             <div class="twit-author">
                 {{twit.User.nick}}
+                {{twit.id}}
                 {% if twit.User.id == user.id %}
                 <button class="twit-remove">x</button>
                 {% endif %}
@@ -108,18 +109,19 @@
             }
         });
     });
+// # id , . class
+    //class twit-user-id 게시글 쓴사람
+    //class twit-id 게시글id
     document.querySelectorAll('.twit-remove').forEach(function (tag) {
         tag.addEventListener('click', function () {
-            const myId = document.querySelector('#my-id'); // 로그인한 사람
-            const postId = document.querySelector('.twit-id').value  // 게시물 id
-            const userId = tag.parentNode.parentNode.querySelector('.twit-id'); // 게시글 사람
-            console.log("myId",myId.value)
-            console.log("postId",postId)
-            console.log("userId",userId.value)
+            console.log(tag)
+            let myId = document.querySelector('#my-id').value; // 로그인한 사람 OOO
+            let postId = tag.parentNode.parentNode.querySelector('.twit-id').value;  // 게시글 id
+            let userId = tag.parentNode.parentNode.querySelector('.twit-user-id').value; // 게시글 사람
 
-            if (myId && postId && userId.value == myId.value) {
+            if (myId && postId && userId === myId) {
                 if(confirm('삭제하시겠습니까?')){
-                    axios.post(`/post/${postId}/delete`)
+                    axios.post(`/post/${postId}/${userId}/delete`)
                         .then(() => {
                             location.reload();
                         })
