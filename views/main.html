@@ -121,7 +121,7 @@
 
             if (myId && postId && userId === myId) {
                 if(confirm('삭제하시겠습니까?')){
-                    axios.post(`/post/${postId}/${userId}/delete`)
+                    axios.post(`/post/${postId}/delete`)
                         .then(() => {
                             location.reload();
                         })
