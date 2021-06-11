@@ -59,4 +59,20 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => { // ê²Œì
     }
 });
 
+router.post('/:postId/delete', isLoggedIn, async (req, res, next) => {
+    try {
+        const post = await Post.findOne({ where: { id: req.params.postId}});
+        if(post) {
+            await Post.destroy({where: {id: req.params.postId}});
+            res.send('success');
+        }
+        else {
+            res.status(404).send('Do not exist post')
+        }
+    } catch(err) {
+        console.error(err);
+        next(err);
+    }
+})
+
 module.exports = router;
