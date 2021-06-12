@@ -77,5 +77,5 @@ app.use((err, req, res, next) => { // 에러처리 미들웨어
 });
 
 app.listen(app.get('port'), () => { // 포트설정
-    console.log(app.get('port'), '번 포트에서 대기 중');
+    console.log(`server on! http://localhost:${app.get('port')}`)
 })

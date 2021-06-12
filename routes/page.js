@@ -62,4 +62,30 @@ router.get('/hashtag', async (req, res, next) => { // 해시태그로 검색 화
     }
 });
 
+router.get('/update_profile', isLoggedIn, async (req, res) => { // 프로필 수정 화면은 로그인이 된 상태에서만 허용 => isLoggedIn 사용
+    try{
+        const user = req.user
+        const userInfo = await User.findOne({ where: { id: user.id }})
+        if(userInfo.provider == "local"){
+            res.render('update_profile', {
+                title: '내 정보 수정 - NodeBird ',
+                userProvider: userInfo.provider,
+                userEmail: userInfo.email,
+                userNickname: userInfo.nick
+            });
+        }
+        else{
+            res.render('update_profile', {
+                title: '내 정보 수정 - NodeBird ',
+                userProvider: userInfo.provider,
+                userNickname: userInfo.nick
+            });
+        }
+    }
+    catch(err){
+        console.error(err);
+        return next(err);
+    }
+});
+
 module.exports = router;
