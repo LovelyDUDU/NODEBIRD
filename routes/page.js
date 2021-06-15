@@ -4,11 +4,17 @@ const { Post, User, Hashtag } = require('../models');
 
 const router = express.Router();
 
-router.use((req, res, next) => {                // 라우터용 미들웨어
+router.use(async (req, res, next) => {                // 라우터용 미들웨어
     res.locals.user = req.user;                 // res.locals 로 값을 설정하는 이유 => 모든 템플릿 엔진에서 공통으로 사용하기 때문
     res.locals.followerCount = req.user ? req.user.Followers.length : 0;
     res.locals.followingCount = req.user ? req.user.Followings.length : 0;
     res.locals.followerIdList = req.user ? req.user.Followings.map(f => f.id) : [];
+    res.locals.likeList = []
+    if(req.user){
+        const user = await User.findOne({ where: { id: req.user.id } });
+        let likeList = await user.getLikePostList({ include: [{model: User }]})
+        res.locals.likeList = req.user ? likeList.map(f => f.id) : [];
+    }
     next();
 });
 

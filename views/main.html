@@ -43,6 +43,12 @@
             {% if followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
             <button class="twit-unfollow">언팔로우하기</button>
             {% endif %}
+            {% if not likeList.includes(twit.id) and user.id %}
+            <button class="like">좋아요</button>
+            {% endif %}
+            {% if likeList.includes(twit.id) and user.id %}
+            <button class="unlike">좋아요 취소</button>
+            {% endif %}
             <div class="twit-content">{{twit.content}}</div>
             {% if twit.img %}
             <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
@@ -132,5 +138,41 @@
             }
         })
     })
+
+    document.querySelectorAll('.like').forEach(function (tag) {
+        tag.addEventListener('click', function () {
+            const myId = document.querySelector('#my-id');
+            if (myId) {
+                const twitId = tag.parentNode.querySelector('.twit-id').value;
+                if (confirm('좋아요 하시겠습니까?')) {
+                    axios.post(`/post/${twitId}/like`)
+                        .then(() => {
+                            location.reload();
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        });
+                }
+            }
+        });
+    });
+
+    document.querySelectorAll('.unlike').forEach(function (tag) {
+        tag.addEventListener('click', function () {
+            const myId = document.querySelector('#my-id');
+            if (myId) {
+                const twitId = tag.parentNode.querySelector('.twit-id').value;
+                if (confirm('좋아요 취소하시겠습니까?')) {
+                    axios.post(`/post/${twitId}/unlike`)
+                        .then(() => {
+                            location.reload();
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        });
+                }
+            }
+        });
+    });
 </script>
 {% endblock %}

@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const { Post, Hashtag } = require('../models');
+const { Post, Hashtag, User } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router()
@@ -72,6 +72,38 @@ router.post('/:postId/delete', isLoggedIn, async (req, res, next) => {
     } catch(err) {
         console.error(err);
         next(err);
+    }
+})
+
+router.post('/:twitId/like', isLoggedIn, async (req, res, next) => {
+    try{
+        const user = await User.findOne({where: { id: req.user.id }});
+        const post = await Post.findOne({where: { id: req.params.twitId }})
+        if(user && post){
+            await user.addLikePostList(parseInt(req.params.twitId), 10);
+            res.send('success')
+        } else {
+            res.status(404).send('no user or no post')
+        }
+    } catch(err){
+        console.error(err)
+        next(err)
+    }
+})
+
+router.post('/:twitId/unlike', isLoggedIn, async (req, res, next) => {
+    try{
+        const user = await User.findOne({where: { id: req.user.id }});
+        const post = await Post.findOne({where: { id: req.params.twitId }})
+        if(user && post){
+            await user.removeLikePostList(parseInt(req.params.twitId), 10);
+            res.send('success')
+        } else {
+            res.status(404).send('no user or no post')
+        }
+    } catch(err){
+        console.error(err)
+        next(err)
     }
 })
 
