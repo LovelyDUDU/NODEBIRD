@@ -43,7 +43,7 @@ router.post('/token', async (req, res) => { // 토큰을 발급하는 라우터
     }
 });
 
-router.get('/test', verifyToken, (res, res) => { // 토큰을 테스트해볼 수 있는 라우터
+router.get('/test', verifyToken, (req, res) => { // 토큰을 테스트해볼 수 있는 라우터
     res.json(req.decoded);
 });
 
