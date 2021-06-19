@@ -5,6 +5,7 @@ const path = require('path');
 const session = require('express-session');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
+const v1 = require('./routes/v1')
 const passport = require('passport');
 
 dotenv.config();
@@ -28,7 +29,7 @@ nunjucks.configure('views', { // 템플릿 파일들이 위치한 폴더(views)�
 });
 
 // 모델과 서버 연결
-sequelize.sync({ force:false }) // sync 메서드를 이용해서 서버 실행시 MySQL과 연동됨. force가 true면 서버 실행신마다 테이블을 재생성함
+sequelize.sync({ force: false }) // sync 메서드를 이용해서 서버 실행시 MySQL과 연동됨. force가 true면 서버 실행신마다 테이블을 재생성함
     .then(() => {
         console.log('Success DB Connection');
     })
@@ -40,11 +41,11 @@ sequelize.sync({ force:false }) // sync 메서드를 이용해서 서버 실행�
 app.use(morgan('dev')); // req과 res에 대한 정보를 콘솔에 기록함.
 app.use(express.static((path.join(__dirname, 'public')))); // static 미들웨어는 정적인 파일들을 제공하는 라우터 역할을 함.
 app.use(express.json())
-app.use(express.urlencoded({ extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET)); // req에 있는 쿠키를 해석해서 req.cookies로 만듬
 
 // session 관리용 미들웨어.
-app.use(session({ 
+app.use(session({
     resave: false, // 요청이 올 때 세션에 수정 사항이 안생겨도 세션을 다시 저장할지 설정
     saveUninitialized: false, // 세선에 저장할 내역이 없더라도 처음부터 세션을 생성할지 설정
     secret: process.env.COOKIE_SECRET,
@@ -57,6 +58,7 @@ app.use(passport.initialize()); // 이 미들웨어는 req객체에 passport 설
 app.use(passport.session()); // 이 미들웨어는 req.session 객체에 passport 정보를 저장
 
 app.use('/', indexRouter);
+app.use('/v1', v1);
 app.use('/auth', authRouter);
 
 app.use((req, res, next) => {
