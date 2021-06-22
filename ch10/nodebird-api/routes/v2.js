@@ -1,14 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 
-const { verifyToken, deprecated } = require('./middlewares');
+const { verifyToken, apiLimiter } = require('./middlewares');
 const { Domain, User, Post, Hashtag } = require('../models');
 
 const router = express.Router();
 
-router.use(deprecated); // v1으로 접근한 모든 요청에 deprecated 응답을 보내게 함
-
-router.post('/token', async (req, res) => { // 토큰을 발급하는 라우터
+router.post('/token', apiLimiter, async (req, res) => { // 토큰을 발급하는 라우터
     const { clientSecret } = req.body;
     try {
         const domain = await Domain.findOne({
@@ -45,11 +43,11 @@ router.post('/token', async (req, res) => { // 토큰을 발급하는 라우터
     }
 });
 
-router.get('/test', verifyToken, (req, res) => { // 토큰을 테스트해볼 수 있는 라우터
+router.get('/test', verifyToken, apiLimiter, (req, res) => { // 토큰을 테스트해볼 수 있는 라우터
     res.json(req.decoded);
 });
 
-router.get('/posts/my', verifyToken, (req, res) => {
+router.get('/posts/my', apiLimiter, verifyToken, (req, res) => {
     Post.findAll({ where: { userId: req.decoded.id} })
         .then((posts) => {
             console.log(posts);
@@ -67,7 +65,7 @@ router.get('/posts/my', verifyToken, (req, res) => {
         });
 });
 
-router.get('/posts/hashtag/:title', verifyToken, async (req, res) => {
+router.get('/posts/hashtag/:title', verifyToken, apiLimiter, async (req, res) => {
     try {
         const hashtag = await Hashtag.findOne({ where: { title: req.params.title } });
         if(!hashtag) {

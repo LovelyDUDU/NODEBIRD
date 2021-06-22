@@ -5,7 +5,8 @@ const path = require('path');
 const session = require('express-session');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
-const v1 = require('./routes/v1')
+const v1 = require('./routes/v1');
+const v2 = require('./routes/v2');
 const passport = require('passport');
 
 dotenv.config();
@@ -59,6 +60,7 @@ app.use(passport.session()); // 이 미들웨어는 req.session 객체에 passpo
 
 app.use('/', indexRouter);
 app.use('/v1', v1);
+app.use('/v2', v2);
 app.use('/auth', authRouter);
 
 app.use((req, res, next) => {

@@ -1,5 +1,6 @@
 const { reset } = require("nodemon");
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const RateLimit = require('express-rate-limit'); // 이렂ㅇ 기간 내에 API를 사용할 수 있는 횟수를 제한
 //JWT : Jswon Web Token. JSON 형태로 데이터를 저장하는 토큰
 
 exports.isLoggedIn = (req, res, next) => {
@@ -36,3 +37,21 @@ exports.verifyToken = (req, res, next) => {
         });
     }
 };
+
+exports.apiLimiter = new RateLimit({ // 이 미들웨어를 라우터에 넣으면 라우터에 사용량 제한이 걸림
+    windowMs: 60 * 1000, // 기준 시간 ==> 1m
+    max: 1, // 허용횟수
+    handler(req, res) {  // 제한초과시 콜백 함수
+        res.status(this.statusCode).json({
+            code:this.statusCode,
+            message: '1분에 한번만 요청할 수 있음',
+        });
+    },
+});
+
+exports.deprecated = (req, res) => {
+    res.status(410).json({
+        code: 410,
+        message: '새로운 버전이 나왔습니다. 새로운 버전을 사용하세요',
+    });
+}; 
