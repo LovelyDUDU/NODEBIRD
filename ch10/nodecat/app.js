@@ -16,7 +16,7 @@ nunjucks.configure('views', {
     watch: true,
 });
 
-app.use(morgan('dve'));
+app.use(morgan('dev'));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
     resave: false,
