@@ -40,7 +40,7 @@ exports.verifyToken = (req, res, next) => {
 
 exports.apiLimiter = new RateLimit({ // 이 미들웨어를 라우터에 넣으면 라우터에 사용량 제한이 걸림
     windowMs: 60 * 1000, // 기준 시간 ==> 1m
-    max: 1, // 허용횟수
+    max: 10, // 허용횟수
     handler(req, res) {  // 제한초과시 콜백 함수
         res.status(this.statusCode).json({
             code:this.statusCode,

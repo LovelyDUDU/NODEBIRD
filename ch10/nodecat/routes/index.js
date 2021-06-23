@@ -76,4 +76,8 @@ router.get('/test', async (req, res, next) => { // 토큰인증과정을 테스�
     }
 });
 
+router.get('/', (req, res) => {
+    res.render('main', { key: process.env.CLIENT_SECRET });
+});
+
 module.exports = router;
