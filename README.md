@@ -136,3 +136,31 @@ html 코드 모음
 
 ## NODECAT
 - API 사용자
+
+<br><br><hr>
+
+# <chapter 11>
+
+## nodebird
+```
+"dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "mysql2": "^2.2.5",
+    "nunjucks": "^3.2.3",
+    "passport": "^0.4.1",
+    "passport-kakao": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^6.2.0"
+  },
+  "devDependencies": {
+    "jest": "^27.0.5",          페이스북에서 만든 오픈소스 => 테스팅에 필요한 툴을 제공
+    "nodemon": "^2.0.7"
+  }
+```
