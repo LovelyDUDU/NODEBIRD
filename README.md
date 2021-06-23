@@ -1,5 +1,8 @@
 # NodeBird 프로젝트 
 -> Node.js 교과서의 9장에 나오는 SNS 서비스 만들기 실습
+<br><hr>
+
+# <chapter 09><br>
 
 ### package.json
 ```
@@ -95,3 +98,41 @@ html 코드 모음
 - 게시글 삭제하기 (등록자와 현재 로그인한 사용자가 같을 때, Sequilize의 destory 메서드와 라우터 활용) <b style="color:red">(완료)</b>
 - 게시글 좋아요 누르기 및 좋아요 취소하기(사용자-게시글 모델 간 N:M 관계 정립 후 라우터 활용)<b style="color:red">(완료)</b>
 - 매번 DB를 조회하지 않도록 deserializeUser 캐싱하기 (객체 선언 후 객체에 사용자 정보 저장, 객체 안에 캐싱된 값이 있으면 조회)
+
+
+<br><br><hr>
+
+# <chapter 10>
+
+## nodebird-api
+- API 제공자
+```
+ "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",                 # 응답헤더 조작에 편한 패키지
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "mysql2": "^2.2.5",
+    "nunjucks": "^3.2.3",
+    "passport": "^0.4.1",
+    "passport-kakao": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^6.2.0",
+    "uuid": "^8.2.0"
+  },
+```
+
+<br><br>
+
+
+<br>
+
+## NODECAT
+- API 사용자
