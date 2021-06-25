@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 // 해시태그로 게시물을 검색하기 위함.
 module.exports = class Hashtag extends Sequelize.Model {
-    static init(sequelize){
+    static init(sequelize) {
         return super.init({
             title: {
                 type: Sequelize.STRING(15),
