@@ -1,7 +1,3 @@
-test('1+1은 2입니다.', () => {
-    expect(1+1).toEqual(2);
-})
-
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 describe('isLoggedIn', () => { // describe는 테스트를 그룹화해주는 역할을 함.

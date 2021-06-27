@@ -1,5 +1,3 @@
-const { reset } = require("nodemon");
-
 exports.isLoggedIn = (req, res, next) => {
     if(req.isAuthenticated()) { // 로그인 유무 파악
         next();
