@@ -76,6 +76,4 @@ app.use((err, req, res, next) => { // 에러처리 미들웨어
     res.render('error');
 });
 
-app.listen(app.get('port'), () => { // 포트설정
-    console.log(`server on! http://localhost:${app.get('port')}`)
-})
+module.exports = app;
