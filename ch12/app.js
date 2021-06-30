@@ -2,11 +2,12 @@ const express = require('express')
 const path = require('path')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
-const session = require('session')
+const session = require('express-session')
 const nunjucks = require('nunjucks')
 const dotenv = require('dotenv')
 
 dotenv.config()
+const webSocket = require('./socket')
 const indexRouter = require('./routes')
 
 const app = express();
@@ -47,6 +48,8 @@ app.use((err, req, res, next) => {
     res.render('error');
 })
 
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번에서 대기중');
 })
+
+webSocket(server); // 웹소켓을 express 서버와 연결

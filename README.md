@@ -164,8 +164,9 @@ html 코드 모음
     "nodemon": "^2.0.7"
   }
 ```
+하다가 중간에 종료함.<br>
+이유 : 너무 루즈해지고 재미를 못느낌. 추후 다시 할 예정
 <br><br><hr>
 
 # <chapter 12>
-하다가 중간에 종료함.<br>
-이유 : 너무 루즈해지고 재미를 못느낌. 추후 다시 할 예정
+<img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F6agjg%2FbtqGZ9BtZ7E%2FSCmRQIRJaRrrr6rWfKSX3k%2Fimg.png">
