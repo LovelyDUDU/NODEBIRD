@@ -1,3 +1,4 @@
+/*
 const WebSocket = require('ws')
 
 module.exports = (server) => {
@@ -28,3 +29,28 @@ module.exports = (server) => {
 // WebSocket 생성자에 연결할 서버 주소를 넣고 webSocket 객체를 생성
 // 서버와 연결되는 경우 onopen 이벤트 리스너가 호출됨
 // 서버로부터 메세지가 오는 경우에는 onmessage 이벤트 리스너 호출됨
+*/
+
+const SocketIO = require('socket.io') // 패키지를 불러와서 express 서버와 연결
+
+module.exports = (server) => {
+    const io = SocketIO(server, { path: '/socket.io' }); // 두번째 인수는 서버에 관한 설정. 클라이언트가 접속할 경로인 path옵션만 사용함
+    io.on('connection', (socket) => { // 클라이언트가 접속했을 때 발생, 콜백으로 socket 객체
+        const req = socket.request;
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // client의 IP를 알아내는 방법
+        console.log('새로운 클라이언트 접속', ip, socket.id, req.ip);
+        socket.on('disconnect', () => { // 연결 종료시
+            console.log('클라이언트 접속 해제', ip, socket.id);
+            clearInterval(socket.interval);
+        });
+        socket.on('error', (error) => { // 에러시
+            console.error(error);
+        })
+        socket.on('reply', (data) => { // 클라이언트로부터 메시지 수신 시
+            console.log(data);
+        })
+        socket.interval = setInterval(() => {
+            socket.emit('news', 'Hello Socket.IO');
+        }, 3000);
+    })
+}
