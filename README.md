@@ -165,8 +165,16 @@ html 코드 모음
   }
 ```
 하다가 중간에 종료함.<br>
-이유 : 너무 루즈해지고 재미를 못느낌. 추후 다시 할 예정
+이유 : 너무 루즈해지고 재미    를 못느낌. 추후 다시 할 예정
 <br><br><hr>
 
 # <chapter 12>
 <img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F6agjg%2FbtqGZ9BtZ7E%2FSCmRQIRJaRrrr6rWfKSX3k%2Fimg.png">
+
+## dependency
+color-hash : 랜덤 색상을 구현해줌<br><br>
+
+대학생때 웹소켓을 이용해서 java에서 채팅프로그램 비슷한걸 만들었던 적이 있었는데 js로 하는건 처음이라 신기했음.<br>
+나중에 한 50살쯤 됐을때 카페차릴때 유용하게 써먹을 수 있을 것 같음<br>
+
+# <chapter 13>

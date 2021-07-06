@@ -31,6 +31,7 @@ module.exports = (server) => {
 // 서버로부터 메세지가 오는 경우에는 onmessage 이벤트 리스너 호출됨
 */
 
+/*
 const SocketIO = require('socket.io') // 패키지를 불러와서 express 서버와 연결
 
 module.exports = (server) => {
@@ -54,3 +55,35 @@ module.exports = (server) => {
         }, 3000);
     })
 }
+*/
+
+const SocketIO = require('socket.io');
+
+module.exports = (server, app) => {
+  const io = SocketIO(server, { path: '/socket.io' });
+  app.set('io', io); // 라우터에서 io 객체를 쓸 수 있게 저장.
+  const room = io.of('/room'); // of : Socket.IO에 네임스페이스르 ㄹ부여하는 메서드
+  const chat = io.of('/chat');
+
+  room.on('connection', (socket) => {
+    console.log('room 네임스페이스에 접속');
+    socket.on('disconnect', () => {
+      console.log('room 네임스페이스 접속 해제');
+    });
+  });
+
+  chat.on('connection', (socket) => {
+    console.log('chat 네임스페이스에 접속');
+    const req = socket.request;
+    const { headers: { referer } } = req;
+    const roomId = referer
+      .split('/')[referer.split('/').length - 1]
+      .replace(/\?.+/, '');
+    socket.join(roomId);
+
+    socket.on('disconnect', () => {
+      console.log('chat 네임스페이스 접속 해제');
+      socket.leave(roomId);
+    });
+  });
+};
